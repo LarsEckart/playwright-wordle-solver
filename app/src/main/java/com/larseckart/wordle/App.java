@@ -2,6 +2,7 @@ package com.larseckart.wordle;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserType;
+import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
@@ -22,6 +23,12 @@ public class App {
       page.click("button:has-text(\"d\")");
 
       page.click("text=enter");
+
+      for (int i = 0; i < 5; i++) {
+        ElementHandle elementHandle1 = page.querySelector("game-tile >> nth=" + i);
+        String letter = elementHandle1.getAttribute("letter");
+        String evaluation = elementHandle1.getAttribute("evaluation");
+      }
 
       // Pause on the following line.
       page.pause();
