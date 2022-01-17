@@ -16,13 +16,7 @@ public class App {
       page.navigate("https://www.powerlanguage.co.uk/wordle/");
       page.click("game-modal path");
 
-      page.click("button:has-text(\"w\")");
-      page.click("button:has-text(\"o\")");
-      page.click("button:has-text(\"r\")");
-      page.click("button:has-text(\"l\")");
-      page.click("button:has-text(\"d\")");
-
-      page.click("text=enter");
+      enterGuess(page, "world");
 
       for (int i = 0; i < 5; i++) {
         ElementHandle elementHandle1 = page.querySelector("game-tile >> nth=" + i);
@@ -33,5 +27,15 @@ public class App {
       // Pause on the following line.
       page.pause();
     }
+  }
+
+  private static void enterGuess(Page page, String guess) {
+    char[] chars = guess.toCharArray();
+    page.click("button:has-text(\"" + chars[0] + "\")");
+    page.click("button:has-text(\"" + chars[1] + "\")");
+    page.click("button:has-text(\"" + chars[2] + "\")");
+    page.click("button:has-text(\"" + chars[3] + "\")");
+    page.click("button:has-text(\"" + chars[4] + "\")");
+    page.click("text=enter");
   }
 }
