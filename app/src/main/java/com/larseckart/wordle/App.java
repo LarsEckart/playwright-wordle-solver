@@ -5,10 +5,21 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class App {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
+
+    Path path = Paths.get("words_5_letters.txt");
+    List<String> words = Files.readAllLines(path);
+    String guess = words.get(new Random(5).nextInt(words.size()));
+
     try (Playwright playwright = Playwright.create()) {
       Browser browser = playwright.firefox()
           .launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50));
