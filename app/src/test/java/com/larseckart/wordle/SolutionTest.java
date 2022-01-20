@@ -12,42 +12,42 @@ class SolutionTest {
   void returnsTrueWhenFirstLetterMatches() {
     solution.set(0, "P");
 
-    assertThat(solution.mightBe("panda")).isTrue();
+    assertThat(solution.hasCorrectLettersAtSameLocation("panda")).isTrue();
   }
 
   @Test
   void returnsFalseWhenFirstLetterNotMatches() {
     solution.set(0, "P");
 
-    assertThat(solution.mightBe("solar")).isFalse();
+    assertThat(solution.hasCorrectLettersAtSameLocation("solar")).isFalse();
   }
 
   @Test
   void returnsFalseWhenSecondLetterNotMatches() {
     solution.set(1, "a");
 
-    assertThat(solution.mightBe("solar")).isFalse();
+    assertThat(solution.hasCorrectLettersAtSameLocation("solar")).isFalse();
   }
 
   @Test
   void returnsFalseWhenThirdLetterNotMatches() {
     solution.set(2, "n");
 
-    assertThat(solution.mightBe("solar")).isFalse();
+    assertThat(solution.hasCorrectLettersAtSameLocation("solar")).isFalse();
   }
 
   @Test
   void returnsTrueWhenSecondLetterMatches() {
     solution.set(1, "a");
 
-    assertThat(solution.mightBe("panda")).isTrue();
+    assertThat(solution.hasCorrectLettersAtSameLocation("panda")).isTrue();
   }
 
   @Test
   void returnsTrueWhenThirdLetterMatches() {
     solution.set(2, "n");
 
-    assertThat(solution.mightBe("panda")).isTrue();
+    assertThat(solution.hasCorrectLettersAtSameLocation("panda")).isTrue();
   }
 
   @Test
@@ -58,13 +58,23 @@ class SolutionTest {
     solution.set(3, "p");
 //    solution.add(4, "e");
 
-    assertThat(solution.mightBe("graph")).isTrue();
+    assertThat(solution.hasCorrectLettersAtSameLocation("graph")).isTrue();
   }
 
   @Test
-  void definitelyNot() {
+  void containsNotLettersThatAreNotPartOfSolution() {
     solution.not("g");
 
-    assertThat(solution.definitelyNot("graph")).isTrue();
+    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("graph")).isTrue();
+    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("apple")).isFalse();
+  }
+
+  @Test
+  void containsNotLettersThatAreNotPartOfSolution2() {
+    solution.not("a");
+    solution.not("p");
+
+    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("graph")).isTrue();
+    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("apple")).isTrue();
   }
 }

@@ -1,13 +1,19 @@
 package com.larseckart.wordle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 class Solution {
 
   private final char[] chars = new char[5];
-  private final List<String> wrongOnes = new ArrayList<>();
+  private final Set<String> wrongOnes = new HashSet<>();
   private final List<String> notRightYet = new ArrayList<>();
+  private final Map<Integer, String> notRightYet2 = new HashMap<>();
 
   public Solution() {
     this.chars[0] = '*';
@@ -26,10 +32,20 @@ class Solution {
   }
 
   public void almost(int i, String letter) {
+    notRightYet2.put(i, letter);
     notRightYet.add(letter);
   }
 
-  boolean mightBe(String word) {
+  public boolean hasPresentLetterInDifferentPlace(String word) {
+    for (Entry<Integer, String> entry : notRightYet2.entrySet()) {
+      if (!word.contains(entry.getValue())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  boolean hasCorrectLettersAtSameLocation(String word) {
     for (int i = 0; i < chars.length; i++) {
       if (chars[i] == '*') {
         continue;
@@ -41,13 +57,8 @@ class Solution {
     return true;
   }
 
-  boolean definitelyNot(String word) {
-    for (String wrongOne : wrongOnes) {
-      if (word.contains(wrongOne)) {
-        return true;
-      }
-    }
-    return false;
+  boolean containsNotLettersThatAreNotPartOfSolution(String word) {
+    return wrongOnes.stream().anyMatch(word::contains);
   }
 
 

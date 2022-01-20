@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Random;
 
 public class Dictionary {
 
@@ -17,10 +16,13 @@ public class Dictionary {
   }
 
   String nextGuess(Solution solution) {
-    return words.stream()
-        .filter(w -> !solution.definitelyNot(w))
-        .filter(solution::mightBe)
+    String s = words.stream()
+        .filter(w -> !solution.containsNotLettersThatAreNotPartOfSolution(w))
+        .filter(solution::hasCorrectLettersAtSameLocation)
+        .filter(solution::hasPresentLetterInDifferentPlace)
         .findAny().orElseGet(() -> "pling");
+    words.remove(s);
+    return s;
   }
 
 }
