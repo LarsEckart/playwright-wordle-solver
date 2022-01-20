@@ -49,7 +49,7 @@ public class App {
       String letter = elementHandle1.getAttribute("letter");
       String evaluation = elementHandle1.getAttribute("evaluation"); // correct | absent | present
       if ("correct".equals(evaluation)) {
-        solution.add(i % 5, letter);
+        solution.set(i % 5, letter);
       }
       if ("absent".equals(evaluation)) {
         solution.not(letter);

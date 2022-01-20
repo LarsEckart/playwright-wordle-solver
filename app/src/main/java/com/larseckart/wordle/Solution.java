@@ -17,7 +17,7 @@ class Solution {
     this.chars[4] = '*';
   }
 
-  public void add(int position, String c) {
+  public void set(int position, String c) {
     this.chars[position] = c.toLowerCase().charAt(0);
   }
 

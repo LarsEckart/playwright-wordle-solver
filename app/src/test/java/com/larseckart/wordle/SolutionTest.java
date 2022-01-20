@@ -10,52 +10,52 @@ class SolutionTest {
 
   @Test
   void returnsTrueWhenFirstLetterMatches() {
-    solution.add(0, "P");
+    solution.set(0, "P");
 
     assertThat(solution.mightBe("panda")).isTrue();
   }
 
   @Test
   void returnsFalseWhenFirstLetterNotMatches() {
-    solution.add(0, "P");
+    solution.set(0, "P");
 
     assertThat(solution.mightBe("solar")).isFalse();
   }
 
   @Test
   void returnsFalseWhenSecondLetterNotMatches() {
-    solution.add(1, "a");
+    solution.set(1, "a");
 
     assertThat(solution.mightBe("solar")).isFalse();
   }
 
   @Test
   void returnsFalseWhenThirdLetterNotMatches() {
-    solution.add(2, "n");
+    solution.set(2, "n");
 
     assertThat(solution.mightBe("solar")).isFalse();
   }
 
   @Test
   void returnsTrueWhenSecondLetterMatches() {
-    solution.add(1, "a");
+    solution.set(1, "a");
 
     assertThat(solution.mightBe("panda")).isTrue();
   }
 
   @Test
   void returnsTrueWhenThirdLetterMatches() {
-    solution.add(2, "n");
+    solution.set(2, "n");
 
     assertThat(solution.mightBe("panda")).isTrue();
   }
 
   @Test
   void returnsTrueWhenTwoLetterMatches() {
-    solution.add(0, "g");
-    solution.add(1, "r");
-    solution.add(2, "a");
-    solution.add(3, "p");
+    solution.set(0, "g");
+    solution.set(1, "r");
+    solution.set(2, "a");
+    solution.set(3, "p");
 //    solution.add(4, "e");
 
     assertThat(solution.mightBe("graph")).isTrue();
