@@ -14,7 +14,6 @@ public class Dictionary {
   public Dictionary() throws IOException {
     Path path = Paths.get("words_5_letters.txt");
     words = Files.readAllLines(path);
-    Collections.shuffle(words);
   }
 
   String nextGuess(Solution solution) {

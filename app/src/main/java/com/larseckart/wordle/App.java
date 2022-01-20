@@ -61,13 +61,13 @@ public class App {
   }
 
   private static void enterGuess(Page page, String guess) {
-    char[] chars = guess.toCharArray();
+    char[] letters = guess.toCharArray();
 
-    page.click("button[data-key=%s]".formatted(chars[0]));
-    page.click("button[data-key=%s]".formatted(chars[1]));
-    page.click("button[data-key=%s]".formatted(chars[2]));
-    page.click("button[data-key=%s]".formatted(chars[3]));
-    page.click("button[data-key=%s]".formatted(chars[4]));
+    page.click("button[data-key=%s]".formatted(letters[0]));
+    page.click("button[data-key=%s]".formatted(letters[1]));
+    page.click("button[data-key=%s]".formatted(letters[2]));
+    page.click("button[data-key=%s]".formatted(letters[3]));
+    page.click("button[data-key=%s]".formatted(letters[4]));
 
     page.click("text=enter");
     try {
