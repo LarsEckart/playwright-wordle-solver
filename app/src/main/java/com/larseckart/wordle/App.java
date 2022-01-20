@@ -5,20 +5,13 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.microsoft.playwright.options.LoadState;
 
 public class App {
 
   public static void main(String[] args) throws Exception {
 
-    Path path = Paths.get("words_5_letters.txt");
-    List<String> words = Files.readAllLines(path);
-    String guess = words.get(new Random(5).nextInt(words.size()));
+    Dictionary dictionary = new Dictionary();
 
     try (Playwright playwright = Playwright.create()) {
       Browser browser = playwright.firefox()
@@ -28,66 +21,53 @@ public class App {
       page.click("game-modal path");
       Solution solution = new Solution();
 
-      enterGuess(page, guess);
+      page.waitForLoadState(LoadState.NETWORKIDLE);
 
-      for (int i = 0; i < 5; i++) {
-        ElementHandle elementHandle1 = page.querySelector("game-tile >> nth=" + i);
-        String letter = elementHandle1.getAttribute("letter");
-        String evaluation = elementHandle1.getAttribute("evaluation"); // correct | absent | present
-        if ("correct".equals(evaluation)) {
-          solution.add(i, letter.charAt(0));
-        }
-        if ("absent".equals(evaluation)) {
-          solution.not(letter);
-        }
-        if ("present".equals(evaluation)) {
-          solution.almost(letter);
-        }
+      for (int i = 0; i < 7; i++) {
+        enterGuess(page, dictionary.nextGuess(solution));
+        evaluateGuess(page, solution, i);
       }
 
       // Pause on the following line.
-      page.pause();
+//      page.pause();
     }
   }
 
-  private static class Solution {
-
-    private final char[] chars = new char[5];
-    private final List<String> wrongOnes = new ArrayList<>();
-    private final List<String> notRightYet = new ArrayList<>();
-
-    public Solution() {
-      this.chars[0] = '*';
-      this.chars[1] = '*';
-      this.chars[2] = '*';
-      this.chars[3] = '*';
-      this.chars[4] = '*';
+  private static void evaluateGuess(Page page, Solution solution, int row) {
+    int start;
+    switch (row) {
+      default -> start = 0;
+      case 2 -> start = 5;
+      case 3 -> start = 10;
+      case 4 -> start = 15;
+      case 5 -> start = 20;
+      case 6 -> start = 25;
     }
-
-    public void add(int position, char c) {
-      this.chars[position] = c;
-    }
-
-    public String toString() {
-      return new String(chars);
-    }
-
-    public void not(String letter) {
-      wrongOnes.add(letter);
-    }
-
-    public void almost(String letter) {
-      notRightYet.add(letter);
+    int end = start + 5;
+    for (int i = start; i < end; i++) {
+      ElementHandle elementHandle1 = page.querySelector("game-tile >> nth=" + i);
+      String letter = elementHandle1.getAttribute("letter");
+      String evaluation = elementHandle1.getAttribute("evaluation"); // correct | absent | present
+      if ("correct".equals(evaluation)) {
+        solution.add(i % 5, letter);
+      }
+      if ("absent".equals(evaluation)) {
+        solution.not(letter);
+      }
+      if ("present".equals(evaluation)) {
+        solution.almost(i % 5, letter);
+      }
     }
   }
 
   private static void enterGuess(Page page, String guess) {
     char[] chars = guess.toCharArray();
-    page.click("button:has-text(\"" + chars[0] + "\")");
-    page.click("button:has-text(\"" + chars[1] + "\")");
-    page.click("button:has-text(\"" + chars[2] + "\")");
-    page.click("button:has-text(\"" + chars[3] + "\")");
-    page.click("button:has-text(\"" + chars[4] + "\")");
+
+    page.click("button[data-key=%s]".formatted(chars[0]));
+    page.click("button[data-key=%s]".formatted(chars[1]));
+    page.click("button[data-key=%s]".formatted(chars[2]));
+    page.click("button[data-key=%s]".formatted(chars[3]));
+    page.click("button[data-key=%s]".formatted(chars[4]));
 
     page.click("text=enter");
     try {
