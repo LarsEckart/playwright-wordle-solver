@@ -1,9 +1,7 @@
 package com.larseckart.wordle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -12,8 +10,7 @@ class Solution {
 
   private final char[] chars = new char[5];
   private final Set<String> wrongOnes = new HashSet<>();
-  private final List<String> notRightYet = new ArrayList<>();
-  private final Map<Integer, String> notRightYet2 = new HashMap<>();
+  private final Map<Integer, String> present = new HashMap<>();
 
   public Solution() {
     this.chars[0] = '*';
@@ -32,15 +29,18 @@ class Solution {
   }
 
   public void almost(int i, String letter) {
-    notRightYet2.put(i, letter);
-    notRightYet.add(letter);
+    present.put(i, letter);
   }
 
-  public boolean hasPresentLetterInDifferentPlace(String word) {
-    for (Entry<Integer, String> entry : notRightYet2.entrySet()) {
+  public boolean hasPresentLetterButInDifferentPlace(String word) {
+    for (Entry<Integer, String> entry : present.entrySet()) {
       if (!word.contains(entry.getValue())) {
         return false;
       }
+      if (word.charAt(entry.getKey()) == entry.getValue().charAt(0)) {
+        return false;
+      }
+
     }
     return true;
   }

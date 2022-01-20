@@ -23,13 +23,13 @@ public class App {
 
       page.waitForLoadState(LoadState.NETWORKIDLE);
 
-      for (int i = 0; i < 7; i++) {
+      for (int i = 1; i < 7; i++) {
         enterGuess(page, dictionary.nextGuess(solution));
         evaluateGuess(page, solution, i);
       }
 
       // Pause on the following line.
-//      page.pause();
+      page.pause();
     }
   }
 
