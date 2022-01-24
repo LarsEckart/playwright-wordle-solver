@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 public class Dictionary {
@@ -16,14 +15,23 @@ public class Dictionary {
     words = Files.readAllLines(path);
   }
 
+  public Dictionary(Path path) throws IOException {
+    words = Files.readAllLines(path);
+  }
+
   String nextGuess(Solution solution) {
-    String s = words.stream()
-        .filter(w -> !solution.containsNotLettersThatAreNotPartOfSolution(w))
-        .filter(solution::hasCorrectLettersAtSameLocation)
-        .filter(solution::hasPresentLetterButInDifferentPlace)
-        .findAny().orElseGet(() -> "pling");
+    String s = getPossibleWords(solution).stream()
+        .findAny()
+        .orElseGet(() -> "pling");
     words.remove(s);
     return s;
+  }
+
+  public List<String> getPossibleWords(Solution solution) {
+    return words.stream()
+        .filter(w -> !solution.containsNotLettersThatAreNotPartOfSolution(w))
+        .filter(solution::hasCorrectLettersAtSameLocation)
+        .filter(solution::hasPresentLetterButInDifferentPlace).toList();
   }
 
 }
