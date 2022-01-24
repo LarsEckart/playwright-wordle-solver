@@ -24,7 +24,9 @@ public class App {
       page.waitForLoadState(LoadState.NETWORKIDLE);
 
       for (int i = 1; i < 7; i++) {
-        enterGuess(page, dictionary.nextGuess(solution));
+        String guess = dictionary.nextGuess(solution);
+        System.out.printf("guessing %s from  %s possible words\n", guess, dictionary.getPossibleWords(solution).size());
+        enterGuess(page, guess);
         evaluateGuess(page, solution, i);
       }
 

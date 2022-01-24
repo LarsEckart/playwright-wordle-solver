@@ -1,16 +1,9 @@
 package com.larseckart.wordle;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 class SolutionTest {
@@ -22,24 +15,31 @@ class SolutionTest {
     Dictionary dictionary = new Dictionary(Paths.get("src/main/resources/words_5_letters.txt"));
     Solution solution = new Solution();
 
-    solution.not("q");
-    solution.not("u");
-    solution.not("e");
+    solution.not("a");
     solution.not("r");
+    solution.set(2, "o");
+    solution.not("s");
+    solution.not("e");
+
+    solution.not("t");
+    solution.not("h");
+    solution.set(2, "o");
+    solution.set(3, "l");
+    solution.not("i");
+
+    solution.not("d");
+    solution.not("o");
+    solution.set(2, "o");
+    solution.set(3, "l");
     solution.not("y");
 
-    solution.not("f");
-    solution.not("c");
-    solution.not("a");
-    solution.almost(1, "o");
-    solution.set(4, "l");
-
-    solution.not("s");
-    solution.not("t");
-    solution.not("o"); // !!!
-    solution.almost(1, "k");
 
     assertThat(dictionary.getPossibleWords(solution).contains("knoll")).isTrue();
+  }
+
+  @Test
+  void almostWithDuplicates() {
+
   }
 
   @Test

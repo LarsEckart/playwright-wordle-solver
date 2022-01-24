@@ -10,7 +10,7 @@ repositories {
 dependencies {
     implementation("com.microsoft.playwright:playwright:1.17.0")
     testImplementation("org.assertj:assertj-core:3.22.0")
-    testImplementation("com.approvaltests:approvaltests:13.0.0")
+    implementation("com.approvaltests:approvaltests:13.0.0")
     testImplementation("com.larseckart:junit-tcr-extensions:0.0.1")
 }
 

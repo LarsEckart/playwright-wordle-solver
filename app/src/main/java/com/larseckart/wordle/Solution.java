@@ -1,69 +1,54 @@
 package com.larseckart.wordle;
 
+import com.spun.util.Tuple;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 class Solution {
 
-  private final char[] chars = new char[5];
   private final Set<String> wrongOnes = new HashSet<>();
-  private final Map<Integer, String> present = new HashMap<>();
+  private final List<Tuple<Integer, String>> present = new ArrayList<>();
+  private final List<Tuple<Integer, String>> correct = new ArrayList<>();
 
   public Solution() {
-    this.chars[0] = '*';
-    this.chars[1] = '*';
-    this.chars[2] = '*';
-    this.chars[3] = '*';
-    this.chars[4] = '*';
   }
 
-  public void set(int position, String c) {
-    this.chars[position] = c.toLowerCase().charAt(0);
+  public void set(int position, String letter) {
+    letter = letter.toLowerCase();
+    this.correct.add(new Tuple<>(position, letter));
   }
 
   public void not(String letter) {
+    String l = letter.toLowerCase();
+    if (Stream.concat(present.stream(), correct.stream()).anyMatch(t -> t.getSecond().equals(l))) {
+      return;
+    }
     wrongOnes.add(letter);
   }
 
-  public void almost(int i, String letter) {
-    present.put(i, letter);
+  public void almost(int position, String letter) {
+    letter = letter.toLowerCase();
+    present.add(new Tuple<>(position, letter));
   }
 
   public boolean hasPresentLetterButInDifferentPlace(String word) {
-    for (Entry<Integer, String> entry : present.entrySet()) {
-      if (!word.contains(entry.getValue())) {
-        return false;
-      }
-      if (word.charAt(entry.getKey()) == entry.getValue().charAt(0)) {
-        return false;
-      }
-
-    }
-    return true;
+    return present.stream().allMatch(
+        e -> word.contains(e.getSecond()) && word.charAt(e.getFirst()) != e.getSecond().charAt(0));
   }
 
   boolean hasCorrectLettersAtSameLocation(String word) {
-    for (int i = 0; i < chars.length; i++) {
-      if (chars[i] == '*') {
-        continue;
-      }
-      if (chars[i] != word.charAt(i)) {
-        return false;
-      }
-    }
-    return true;
+    return correct.stream().allMatch(
+        e -> word.charAt(e.getFirst()) == e.getSecond().charAt(0));
   }
 
   boolean containsNotLettersThatAreNotPartOfSolution(String word) {
     return wrongOnes.stream().anyMatch(word::contains);
-  }
-
-
-  @Override
-  public String toString() {
-    return new String(chars);
   }
 }
