@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Dictionary {
 
@@ -20,11 +23,9 @@ public class Dictionary {
   }
 
   String nextGuess(Solution solution) {
-    String s = getPossibleWords(solution).stream()
+    return getPossibleWords(solution).stream()
         .findAny()
         .orElseGet(() -> "pling");
-    words.remove(s);
-    return s;
   }
 
   public List<String> getPossibleWords(Solution solution) {
@@ -34,4 +35,10 @@ public class Dictionary {
         .filter(solution::hasPresentLetterButInDifferentPlace).toList();
   }
 
+  public Map<String, Long> getLetterDistribution() {
+
+    return words.stream()
+        .flatMap(w -> Arrays.stream(w.split("")))
+        .collect(Collectors.groupingBy(l -> l, Collectors.counting()));
+  }
 }
