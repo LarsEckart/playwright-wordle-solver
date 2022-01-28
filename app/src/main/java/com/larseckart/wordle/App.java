@@ -31,7 +31,7 @@ public class App {
       for (int i = 1; i < 7; i++) {
         String guess = dictionary.nextGuess(solution);
         System.out.printf("guessing %s from  %s possible words\n", guess, dictionary.getPossibleWords(solution).size());
-        if (dictionary.getPossibleWords(solution).size() < 15) {
+        if (dictionary.getPossibleWords(solution).size() < 21) {
           System.out.println((dictionary.getPossibleWords(solution)));
         }
         enterGuess(page, guess);
@@ -114,7 +114,7 @@ public class App {
 
     page.click("text=enter");
     try {
-      Thread.sleep(2000);
+      Thread.sleep(1800);
     } catch (InterruptedException e) {
 
     }
