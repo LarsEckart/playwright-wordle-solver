@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class Dictionary {
 
   private final List<String> words;
+
   private Map<String, Long> letterDistribution;
 
   public Dictionary() throws IOException {
@@ -33,7 +34,7 @@ public class Dictionary {
 
   public List<String> getPossibleWords(Solution solution) {
     return words.stream()
-        .filter(w -> !solution.containsNotLettersThatAreNotPartOfSolution(w))
+        .filter(w -> !solution.containsOnlyLettersThatMightBePartOfSolution(w))
         .filter(solution::hasCorrectLettersAtSameLocation)
         .filter(solution::hasPresentLetterButInDifferentPlace)
         .toList();

@@ -2,14 +2,10 @@ package com.larseckart.wordle;
 
 import com.spun.util.Tuple;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 class Solution {
 
@@ -48,7 +44,7 @@ class Solution {
         e -> word.charAt(e.getFirst()) == e.getSecond().charAt(0));
   }
 
-  boolean containsNotLettersThatAreNotPartOfSolution(String word) {
-    return wrongOnes.stream().anyMatch(word::contains);
+  boolean containsOnlyLettersThatMightBePartOfSolution(String word) {
+    return wrongOnes.stream().anyMatch(wrongLetter -> word.contains(wrongLetter));
   }
 }

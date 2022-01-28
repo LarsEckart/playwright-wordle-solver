@@ -99,8 +99,8 @@ class SolutionTest {
   void containsNotLettersThatAreNotPartOfSolution() {
     solution.not("g");
 
-    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("graph")).isTrue();
-    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("apple")).isFalse();
+    assertThat(solution.containsOnlyLettersThatMightBePartOfSolution("graph")).isTrue();
+    assertThat(solution.containsOnlyLettersThatMightBePartOfSolution("apple")).isFalse();
   }
 
   @Test
@@ -108,7 +108,7 @@ class SolutionTest {
     solution.not("a");
     solution.not("p");
 
-    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("graph")).isTrue();
-    assertThat(solution.containsNotLettersThatAreNotPartOfSolution("apple")).isTrue();
+    assertThat(solution.containsOnlyLettersThatMightBePartOfSolution("graph")).isTrue();
+    assertThat(solution.containsOnlyLettersThatMightBePartOfSolution("apple")).isTrue();
   }
 }
