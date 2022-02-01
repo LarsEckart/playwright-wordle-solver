@@ -8,7 +8,12 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.LoadState;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class WordlePage implements AutoCloseable {
 
@@ -60,7 +65,18 @@ public class WordlePage implements AutoCloseable {
 
     @Override
     public void close() {
+        Path path = page.video().path();
         this.playwright.close();
+        Path newPath = Paths.get(today());
+        try {
+            Files.move(path, path.resolveSibling(newPath));
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    private String today() {
+        return new SimpleDateFormat("yyyyMMdd").format(new Date()) + ".webm";
     }
 
     public void evaluateGuess(Solution solution, int row) {
