@@ -12,7 +12,7 @@ public class App {
 
             for (int i = 1; i < 7; i++) {
                 String guess = dictionary.nextGuess(solution);
-                System.out.printf("guessing %s from  %s possible words\n", guess, dictionary.getPossibleWords(solution).size());
+                System.out.printf("guessing %s from  %s possible words%n", guess, dictionary.getPossibleWords(solution).size());
                 wordlePage.enterGuess(guess);
                 wordlePage.evaluateGuess(solution, i);
                 if (wordlePage.wasCorrect(i)) {
