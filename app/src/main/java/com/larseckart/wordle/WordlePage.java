@@ -37,6 +37,7 @@ public class WordlePage implements AutoCloseable {
     }
 
     public void closeInstructions() {
+        this.page.click("text=REJECT");
         this.page.click("game-modal path");
         this.page.waitForLoadState(LoadState.NETWORKIDLE);
     }
