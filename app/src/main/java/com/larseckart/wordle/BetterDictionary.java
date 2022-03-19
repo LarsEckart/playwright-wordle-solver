@@ -8,8 +8,8 @@ public class BetterDictionary extends Dictionary {
   private String[] goodWords = {
       "arose",
       "until",
-      "mirky",
-      "witch"
+      "chawk",
+      "womby"
   };
 
 
