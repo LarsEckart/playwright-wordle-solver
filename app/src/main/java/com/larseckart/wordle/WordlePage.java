@@ -21,8 +21,8 @@ public class WordlePage implements AutoCloseable {
 
   public WordlePage() {
     playwright = Playwright.create();
-    Browser browser = playwright.firefox()
-        .launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50));
+    Browser browser = playwright.chromium()
+        .launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(10));
     BrowserContext context = browser.newContext(
         new Browser.NewContextOptions().setRecordVideoDir(Paths.get("videos/")));
     this.page = context.newPage();

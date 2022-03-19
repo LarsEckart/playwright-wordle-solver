@@ -26,7 +26,8 @@ public class Dictionary {
   }
 
   String nextGuess(Solution solution) {
-    return getPossibleWords(solution).stream()
+    List<String> possibleWords = getPossibleWords(solution);
+    return possibleWords.stream()
         .sorted(Comparator.comparing(this::calculateLetterDistributionCountForWord).reversed())
         .findFirst()
         .orElseGet(() -> "pling");
