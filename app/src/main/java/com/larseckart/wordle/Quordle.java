@@ -1,10 +1,12 @@
 package com.larseckart.wordle;
 
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType.LaunchOptions;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class Quordle {
 
@@ -17,9 +19,12 @@ public class Quordle {
 
     Dictionary dictionary = new BetterDictionary();
     try (Playwright playwright = Playwright.create()) {
-      Browser browser = playwright.chromium().launch(new LaunchOptions().setHeadless(false));
-      Page page = browser.newPage();
+      Browser browser = playwright.webkit().launch(new LaunchOptions().setHeadless(false).setSlowMo(10));
+      BrowserContext context = browser.newContext(
+          new Browser.NewContextOptions().setRecordVideoDir(Paths.get("videos/q/")));
+      Page page = context.newPage();
       page.navigate("https://www.quordle.com/");
+//      page.navigate("https://www.quordle.com/#/practice/");
       Solution solutionTopLeft = new Solution();
       Solution solutionTopRight = new Solution();
       Solution solutionBottomLeft = new Solution();
@@ -103,7 +108,6 @@ public class Quordle {
         }
       }
 
-      page.pause();
     }
   }
 
